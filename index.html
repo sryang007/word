@@ -4,11 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI 词根单词记忆</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>" />
-    <script type="module" crossorigin src="/word/assets/index-DXJ_jN7z.js"></script>
-    <link rel="stylesheet" crossorigin href="/word/assets/index-BhblPQGP.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦉</text></svg>" />
+    <!-- Preconnect CDN for faster JSON loading -->
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <!-- Preload default level word data while JS boots -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/sryang007/word@main/resources/word-data/levels/cet-4.json" as="fetch" crossorigin="anonymous" />
+    <style>
+      /* Instant loading screen before JS loads */
+      #preloader { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #f5f3ff 0%, #fce7f3 30%, #f0f9ff 60%, #fef3c7 100%); z-index: 9999; font-family: -apple-system, sans-serif; }
+      #preloader .owl { font-size: 64px; animation: preBounce 0.6s ease-in-out infinite alternate; }
+      #preloader p { margin-top: 16px; font-size: 16px; font-weight: 600; color: #7c3aed; }
+      #preloader .bar { margin-top: 16px; width: 200px; height: 4px; background: #ede9fe; border-radius: 4px; overflow: hidden; }
+      #preloader .bar-inner { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #8b5cf6, #a78bfa); animation: preBar 1.5s ease-in-out infinite; }
+      @keyframes preBounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+      @keyframes preBar { 0% { width: 0; margin-left: 0; } 50% { width: 60%; margin-left: 20%; } 100% { width: 0; margin-left: 100%; } }
+    </style>
+    <script type="module" crossorigin src="/word/assets/index-vPHPB1lK.js"></script>
+    <link rel="stylesheet" crossorigin href="/word/assets/index-QM6L2dkD.css">
   </head>
   <body class="bg-primary-50 text-slate-700">
+    <div id="preloader"><span class="owl">🦉</span><p>AI 词根记忆加载中...</p><div class="bar"><div class="bar-inner"></div></div></div>
     <div id="root"></div>
+    <script>
+      // Start downloading word data immediately, before React boots
+      window.__WORDS_CDN = 'https://cdn.jsdelivr.net/gh/sryang007/word@main/resources/word-data/';
+      window.__preloadWords = fetch(window.__WORDS_CDN + 'levels/cet-4.json').then(r => r.json()).then(data => {
+        window.__preloadedWords = data;
+      }).catch(() => {});
+    </script>
   </body>
 </html>
